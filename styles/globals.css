@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --primary: rgb(197, 201, 201);
+    --secondary: rgb(231, 120, 46);
+}
+
+html,
+body {
+    font-family: 'Nunito', sans-serif;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: var(--primary);
+    /* border-radius: 5px; */
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: var(--secondary);
+    border-radius: 16px;
+    border: 3px solid var(--primary);
+}

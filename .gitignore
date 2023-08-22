@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/font_awesome_6_pro
 /.pnp
 .pnp.js
 

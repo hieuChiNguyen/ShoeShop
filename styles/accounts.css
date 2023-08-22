@@ -1,0 +1,6 @@
+#customers td,
+#customers th {
+    border: 1px solid #323636;
+    padding: 4px;
+    text-align: center;
+}
