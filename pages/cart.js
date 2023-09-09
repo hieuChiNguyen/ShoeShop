@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/router'
+import Link from 'next/link'
 import { useSelector } from 'react-redux'
 
 import appConfig from '@/utils/appConfig'
@@ -21,50 +21,51 @@ function CartPage() {
 }
 
 function Cart() {
-    const router = useRouter()
     const [cart, setCart] = useState([])
     const [totalItems, setTotalItems] = useState(null)
-    const [totalPrice, setTotalPrice] = useState(null)
+    const [totalPrice, setTotalPrice] = useState(0)
     const authState = useSelector((state) => state.auth)
 
-    useEffect(() => {
-        async function fetchData() {
-            await showProductDetail()
-        }
-        fetchData()
-    }, [totalPrice])
-
+    // Show user's cart
     const showProductDetail = async () => {
         try {
-            let response = await cartApi.getCart(authState.id).then((res) => {
-                if (res && res.errCode === 0) {
-                    setTotalItems(res.countItems)
-                    setCart(res.products)
-                }
-                const sum = cart.reduce((price, product) => price + product.price * product.countUniqueProduct, 0)
-                setTotalPrice(sum)
-                console.log('check cart: ', cart)
-            })
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const handleRemoveProductCart = async (cartId) => {
-        try {
-            let response = await cartApi.deleteProductInCart(cartId)
+            let response = await cartApi.getCart(authState.id)
             if (response && response.errCode === 0) {
-                await showProductDetail()
-                const sum = cart.reduce(
-                    (price, product) => price - product.price * product.countUniqueProduct,
-                    totalPrice
-                )
-                setTotalPrice(sum)
+                setTotalItems(response.countItems)
+                setTotalPrice(response.totalPrice)
+                setCart(response.products)
             }
         } catch (error) {
             console.log(error)
         }
     }
+
+    useEffect(() => {
+        showProductDetail()
+    }, [])
+
+    // Delete a cart item from user's cart
+    const handleRemoveProductCart = async (cartId) => {
+        try {
+            let response = await cartApi.deleteProductInCart(cartId)
+            if (response && response.errCode === 0) {
+                await showProductDetail()
+                totalPrice = totalPrice
+                const newTotalPrice = cart.reduce(
+                    (price, product) => price - product.price * product.countUniqueProduct,
+                    totalPrice
+                )
+                setTotalPrice(newTotalPrice)
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // Update quality of products in cart item
+    const handleDecreaseCount = () => {}
+
+    const handleIncreaseCount = () => {}
 
     return (
         <div className='container mx-auto mt-10 w-[90%]'>
@@ -118,7 +119,11 @@ function Cart() {
                                         {product?.sizeOrder ? product.sizeOrder : ''}
                                     </span>
                                     <div className='flex justify-center w-1/5 pl-2'>
-                                        <svg className='fill-current text-gray-600 w-3' viewBox='0 0 448 512'>
+                                        <svg
+                                            className='fill-current text-gray-600 w-3 cursor-pointer'
+                                            viewBox='0 0 448 512'
+                                            onClick={handleDecreaseCount}
+                                        >
                                             <path d='M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z' />
                                         </svg>
 
@@ -126,7 +131,11 @@ function Cart() {
                                             {product?.countUniqueProduct ? product.countUniqueProduct : ''}
                                         </div>
 
-                                        <svg className='fill-current text-gray-600 w-3' viewBox='0 0 448 512'>
+                                        <svg
+                                            className='fill-current text-gray-600 w-3 cursor-pointer'
+                                            viewBox='0 0 448 512'
+                                            onClick={handleIncreaseCount}
+                                        >
                                             <path d='M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z' />
                                         </svg>
                                     </div>
@@ -148,15 +157,12 @@ function Cart() {
                             )
                         })}
 
-                        <button
-                            className='flex font-semibold text-indigo-600 text-sm mt-10'
-                            onClick={() => router.push('/products')}
-                        >
+                        <Link className='flex font-semibold text-indigo-600 text-sm mt-10' href={'/products'}>
                             <svg className='fill-current mr-2 text-indigo-600 w-4' viewBox='0 0 448 512'>
                                 <path d='M134.059 296H436c6.627 0 12-5.373 12-12v-56c0-6.627-5.373-12-12-12H134.059v-46.059c0-21.382-25.851-32.09-40.971-16.971L7.029 239.029c-9.373 9.373-9.373 24.569 0 33.941l86.059 86.059c15.119 15.119 40.971 4.411 40.971-16.971V296z' />
                             </svg>
                             Continue Shopping
-                        </button>
+                        </Link>
                     </div>
 
                     <div id='summary' className='w-1/4 px-8 py-10 bg-slate-200'>

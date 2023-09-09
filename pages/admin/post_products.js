@@ -65,10 +65,7 @@ const PostProducts = () => {
         }
     }
 
-    useEffect(() => {
-        console.log('check input: ', input)
-    }, [input])
-    console.log('sizes----', sizes)
+    useEffect(() => {}, [input])
 
     const listenToEmitter = () => {
         emitter.on('EVENT_CLEAR_MODAL_DATA', () => {

@@ -2,46 +2,49 @@
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
-import { useRouter } from 'next/navigation'
-
 import assets from '@/assets'
 import ProfileItem from './ProfileItem'
 import userApi from '@/app/api/userApi'
 import { signout } from '@/app/redux/reducers/authSlice'
+import Link from 'next/link'
+import authApi from '@/app/api/authApi'
 
 function Profile() {
-    const router = useRouter()
     const dispatch = useDispatch()
     const authState = useSelector((state) => state.auth)
     const [showProfileMenu, setShowProfileMenu] = useState(false)
     const [avatar, setAvatar] = useState('')
 
-    const handleShowProfileMenu = () => {
+    const handleShowProfileMenu = (e) => {
+        e.preventDefault()
         setShowProfileMenu(!showProfileMenu)
+    }
+
+    const getAvatar = async () => {
+        try {
+            if (authState.loggedIn === true) {
+                let response = await userApi.getUserAvatar(authState.id).then((res) => {
+                    if (res && res.errCode === 0) {
+                        let base64Image = Buffer.from(res.avatar, 'base64').toString()
+                        setAvatar(base64Image)
+                    }
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     useEffect(() => {
-        async function fetchData() {
-            await getAvatar()
-        }
-        fetchData()
+        getAvatar()
     }, [])
 
-    const getAvatar = async () => {
-        if (authState.loggedIn === true) {
-            let response = await userApi.getUserAvatar(authState.id).then((res) => {
-                if (res && res.errCode === 0) {
-                    let base64Image = Buffer.from(res.avatar, 'base64').toString()
-                    setAvatar(base64Image)
-                }
-            })
-        }
-    }
-
-    const handleLogout = () => {
+    const handleSignOut = async () => {
+        let res = await authApi.signOutApi()
+        console.log('check res sign out: ', res)
         dispatch(signout())
         setShowProfileMenu(!showProfileMenu)
-        router.push('/')
+        localStorage.removeItem('accessToken')
     }
 
     return (
@@ -62,7 +65,7 @@ function Profile() {
                 width={60}
                 src={authState.loggedIn && avatar ? avatar : assets.images.avatar}
                 className='tl:block lt:block rounded-full p-1 h-[60px] mb:h-14 mb:w-14'
-                onClick={handleShowProfileMenu}
+                onClick={(e) => handleShowProfileMenu(e)}
             />
             <div className='absolute rounded-xl shadow-md lt:w-40 bg-white overflow-hidden lt:right-10 top-24 lt:text-16 z-10 mb:hidden'>
                 <div className='flex flex-col cursor-pointer'>
@@ -70,10 +73,25 @@ function Profile() {
                         <>
                             {showProfileMenu ? (
                                 <>
-                                    <ProfileItem onClick={() => router.push('/profile')} label='Profile' />
-                                    <ProfileItem onClick={() => router.push('/cart')} label='My Cart' />
+                                    <Link href={'/profile'}>
+                                        <div className='px-2 py-2 hover:bg-neutral-200 transition-all font-medium'>
+                                            Profile
+                                        </div>
+                                    </Link>
+                                    <Link href={'/cart'}>
+                                        <div className='px-2 py-2 hover:bg-neutral-200 transition-all font-medium'>
+                                            My Cart
+                                        </div>
+                                    </Link>
                                     <hr className='h-[2px] bg-gray-200' />
-                                    <ProfileItem onClick={handleLogout} label='Sign out' />
+                                    <Link href={'/'}>
+                                        <div
+                                            className='px-2 py-2 hover:bg-neutral-200 transition-all font-medium'
+                                            onClick={handleSignOut}
+                                        >
+                                            Sign Out
+                                        </div>
+                                    </Link>
                                 </>
                             ) : null}
                         </>
@@ -81,8 +99,12 @@ function Profile() {
                         <>
                             {showProfileMenu ? (
                                 <>
-                                    <ProfileItem onClick={() => router.push('/signin')} label='Sign In' />
-                                    <ProfileItem onClick={() => router.push('/signup')} label='Sign Up' />
+                                    <Link href={'/signin'}>
+                                        <ProfileItem label='Sign In' />
+                                    </Link>
+                                    <Link href={'/signup'}>
+                                        <ProfileItem label='Sign Up' />
+                                    </Link>
                                 </>
                             ) : null}
                         </>

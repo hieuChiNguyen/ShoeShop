@@ -31,8 +31,7 @@ const ManageAccounts = () => {
         address: '',
         username: '',
         phone: '',
-        gender: '',
-        role: ''
+        gender: ''
     })
 
     const handleChange = (e) => {
@@ -104,8 +103,7 @@ const ManageAccounts = () => {
             address: user.address,
             username: user.username,
             gender: user.gender,
-            phone: user.phone,
-            role: user.role
+            phone: user.phone
         })
     }
 

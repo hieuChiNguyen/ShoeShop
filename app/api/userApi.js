@@ -1,4 +1,5 @@
 import axiosClient from './axiosClient'
+import axiosJWT from './axiosJWT'
 
 const userApi = {
     createNewUser: async (data) => {

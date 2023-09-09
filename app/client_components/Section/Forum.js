@@ -1,31 +1,29 @@
 import React from 'react'
 import Image from 'next/image'
 import assets from '@/assets'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 function Forum() {
-    const router = useRouter()
-
     return (
         <div className='w-[80%] justify-center items-end mx-auto lt:my-10 mb:my-2 mb:w-[96%] mb:mx-auto'>
             <div className='flex flex-row justify-between mx-auto lt:gap-10'>
                 <div className='flex flex-col mx-auto lt:gap-6 p-2 mb:gap-1'>
-                    <div className='cursor-pointer'>
-                        <Image
-                            src={assets.images.post1}
-                            width={600}
-                            height={300}
-                            alt='All black in black'
-                            className='h-80 mb:h-24 mb:w-full'
-                            onClick={() => router.push('/products')}
-                        />
-                    </div>
-                    <div
-                        className='uppercase text-2xl font-bold cursor-pointer mb:text-sm mb:w-44'
-                        onClick={() => router.push('/products')}
-                    >
-                        All black in black
-                    </div>
+                    <Link href={'/products'}>
+                        <div className='cursor-pointer'>
+                            <Image
+                                src={assets.images.post1}
+                                width={600}
+                                height={300}
+                                alt='All black in black'
+                                className='h-80 mb:h-24 mb:w-full'
+                            />
+                        </div>
+                    </Link>
+                    <Link href={'/products'}>
+                        <div className='uppercase text-2xl font-bold cursor-pointer mb:text-sm mb:w-44'>
+                            All black in black
+                        </div>
+                    </Link>
                     <div className='block lt:w-500 mb:text-12 mb:font-normal mb:w-44'>
                         Although the color black has many applications, it always highlights a mysterious and not boring
                         look.

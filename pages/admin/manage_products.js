@@ -1,8 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-
 import assets from '@/assets'
 import productApi from '@/app/api/productApi'
 import appConfig from '@/utils/appConfig'
@@ -10,6 +8,7 @@ import AdminSideBar from '@/app/admin_components/AdminSideBar'
 import ModalEditProduct from '@/app/admin_components/Products/ModalEditProduct'
 import '@/styles/globals.css'
 import '@/styles/products.css'
+import Link from 'next/link'
 
 function ManageProductsPage() {
     return (
@@ -21,7 +20,6 @@ function ManageProductsPage() {
 }
 
 function ManageProducts() {
-    const router = useRouter()
     const [arrayProducts, setArrayProducts] = useState([])
     const [showModalEditProduct, setShowModalEditProduct] = useState(false)
 
@@ -204,15 +202,14 @@ function ManageProducts() {
                         </tbody>
                     </table>
                 </div>
-                <Image
-                    src={assets.images.logo}
-                    alt='ShoeShopLogo'
-                    placeholder='blur'
-                    className='cursor-pointer m-4 p-1 transition-all rounded-full w-14 -rotate-45 hover:shadow-sm shadow-lg ring hover:ring-4 ring-white'
-                    onClick={() => {
-                        router.push('/')
-                    }}
-                />
+                <Link href={'/'}>
+                    <Image
+                        src={assets.images.logo}
+                        alt='ShoeShopLogo'
+                        placeholder='blur'
+                        className='cursor-pointer m-4 p-1 transition-all rounded-full w-14 -rotate-45 hover:shadow-sm shadow-lg ring hover:ring-4 ring-white'
+                    />
+                </Link>
             </div>
         </div>
     )

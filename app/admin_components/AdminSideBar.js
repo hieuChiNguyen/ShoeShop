@@ -99,12 +99,9 @@ const AdminSideBar = () => {
                             <BiLogOut size={28} />
                         </div>
                         {!toggleCollapse && (
-                            <div
-                                className={classNames('text-md font-medium text-text-light')}
-                                onClick={() => router.push('/signin')}
-                            >
-                                Sign out
-                            </div>
+                            <Link href={'/signin'}>
+                                <div className={classNames('text-md font-medium text-text-light')}>Sign out</div>
+                            </Link>
                         )}
                     </div>
                 </div>

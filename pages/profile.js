@@ -1,7 +1,6 @@
 'use client'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
-import Head from 'next/head'
 import { useSelector } from 'react-redux'
 import assets from '@/assets'
 import convertImage from '@/utils/convertImage'
@@ -27,22 +26,19 @@ function ProfileDetail() {
     const [avatar, setAvatar] = useState('')
 
     useEffect(() => {
-        async function fetchData() {
-            await getProfile()
+        const getProfile = async () => {
+            let response = await userApi.getUserProfile(authState.id).then((res) => {
+                if (res && res.errCode === 0) {
+                    setProfile(res.data)
+                    let base64Image = Buffer.from(res.data.avatar, 'base64').toString()
+                    console.log('check base64Image line 42', base64Image)
+                    setAvatar(base64Image)
+                }
+            })
         }
-        fetchData()
-    }, [])
 
-    const getProfile = async () => {
-        let response = await userApi.getUserProfile(authState.id).then((res) => {
-            if (res && res.errCode === 0) {
-                setProfile(res.data)
-                let base64Image = Buffer.from(res.data.avatar, 'base64').toString()
-                console.log('check base64Image line 42', base64Image)
-                setAvatar(base64Image)
-            }
-        })
-    }
+        getProfile()
+    }, [])
 
     const handleShowUpdateAvatar = async (e) => {
         let avatarImage = e.target.files[0]

@@ -10,22 +10,19 @@ function ListShoes() {
     const [showProducts, setShowProducts] = useState([])
 
     useEffect(() => {
-        async function fetchData() {
-            await showAllProducts()
+        const showAllProducts = async () => {
+            let response = await productApi
+                .getProduct('ALL')
+
+                .then((res) => {
+                    if (res && res.errCode === 0) {
+                        setShowProducts(res.data)
+                    }
+                })
         }
-        fetchData()
-    }, [showProducts])
 
-    const showAllProducts = async () => {
-        let response = await productApi
-            .getProduct('ALL')
-
-            .then((res) => {
-                if (res && res.errCode === 0) {
-                    setShowProducts(res.data)
-                }
-            })
-    }
+        showAllProducts()
+    }, [])
 
     return (
         <div className='w-full justify-center mx-auto'>

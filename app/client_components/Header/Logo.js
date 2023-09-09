@@ -1,20 +1,18 @@
 'use client'
 import Image from 'next/image'
 import assets from '@/assets'
-import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 function Logo() {
-    const router = useRouter()
-
     return (
-        <Image
-            onClick={() => router.push('/')}
-            alt='Logo'
-            height='100'
-            width='100'
-            src={assets.images.logo}
-            priority={true}
-            className='
+        <Link href={'/'}>
+            <Image
+                alt='Logo'
+                height='100'
+                width='100'
+                src={assets.images.logo}
+                priority={true}
+                className='
                 tl:block 
                 lt:block 
                 cursor-pointer 
@@ -26,7 +24,8 @@ function Logo() {
                 lt:my-3
                 lt:mx-4
             '
-        />
+            />
+        </Link>
     )
 }
 

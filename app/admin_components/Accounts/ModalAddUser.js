@@ -16,7 +16,7 @@ const ModalAddUser = ({ createNewUser }) => {
         username: '',
         phone: '',
         gender: '',
-        role: ''
+        role: 'Admin'
     })
 
     const handleChange = (e) => {
@@ -42,7 +42,7 @@ const ModalAddUser = ({ createNewUser }) => {
                 username: '',
                 phone: '',
                 gender: '',
-                role: ''
+                role: 'Admin'
             })
         })
     }

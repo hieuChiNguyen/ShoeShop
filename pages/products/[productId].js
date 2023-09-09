@@ -73,38 +73,60 @@ function DetailProduct({ product }) {
         setShowPolicy(!showPolicy)
     }
 
-    useEffect(() => {}, [product])
-
     const handleAddProductToCart = async () => {
         try {
-            let response = await cartApi.addToCart(newCart).then((res) => {
-                console.log('check res: ', res)
+            if (newCart.userId && newCart.size === '') {
+                toast.error('Fill out size of shoe !', {
+                    position: 'top-right',
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light'
+                })
+            } else if (newCart.userId && newCart.countUniqueProduct === 0) {
+                toast.error('Fill out count of shoe !', {
+                    position: 'top-right',
+                    autoClose: 1000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: 'light'
+                })
+            } else {
+                let response = await cartApi.addToCart(newCart).then((res) => {
+                    console.log('check res: ', res)
 
-                if (res && res.errCode !== 0) {
-                    toast.error('Add product to cart failed !', {
-                        position: 'top-right',
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'light'
-                    })
-                }
-                if (res && res.errCode === 0) {
-                    toast.success('Add product to cart successfully !', {
-                        position: 'top-right',
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: 'light'
-                    })
-                }
-            })
+                    if (res && res.errCode !== 0) {
+                        toast.error('Add product to cart failed !', {
+                            position: 'top-right',
+                            autoClose: 1500,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: 'light'
+                        })
+                    }
+                    if (res && res.errCode === 0) {
+                        toast.success('Add product to cart successfully !', {
+                            position: 'top-right',
+                            autoClose: 1500,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: 'light'
+                        })
+                    }
+                })
+            }
         } catch (error) {
             toast.error('You must sign in to add product to cart !', {
                 position: 'top-right',
@@ -127,7 +149,6 @@ function DetailProduct({ product }) {
 
     const handleChooseCount = (e) => {
         newCart[e.target.name] = parseInt(e.target.value)
-        console.log('check type line 130: ', typeof newCart.countUniqueProduct)
     }
 
     return (

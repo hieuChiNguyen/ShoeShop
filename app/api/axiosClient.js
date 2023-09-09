@@ -5,10 +5,12 @@ const axiosClient = axios.create({
     headers: {
         'content-type': 'application/json',
         'Cache-Control': 'no-cache'
-    }
+    },
+    withCredentials: 'include'
 })
 
 axiosClient.interceptors.response.use((response) => {
+    console.log('check axiosClient: ', response)
     return response.data
 })
 

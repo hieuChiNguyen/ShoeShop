@@ -20,12 +20,6 @@ export default function Footer() {
         setShowFooter(!showFooter)
     }
 
-    const handleProductOption = (index) => {
-        if (productOptions[index] === 'Male') {
-            router.push('/male')
-        }
-    }
-
     return (
         <>
             <div className='bottom-0 pb-5 border-t-slate-600 h-80 w-full p-2 bg-slate-300 mt-20 mb:hidden'>
@@ -121,11 +115,7 @@ export default function Footer() {
                 {optionIndex === 0 && showFooter && (
                     <div className='flex flex-col gap-5 h-40 w-full tracking-wider text-white font-medium text-16 py-6 px-6'>
                         {productOptions.map((productOption, index) => (
-                            <div
-                                key={index}
-                                className='hover:text-orange-500'
-                                onClick={() => handleProductOption(index)}
-                            >
+                            <div key={index} className='hover:text-orange-500'>
                                 {productOption}
                             </div>
                         ))}

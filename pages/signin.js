@@ -24,8 +24,6 @@ function SignInPage() {
 function SignIn() {
     const router = useRouter()
     const dispatch = useDispatch()
-    const authState = useSelector((state) => state.auth)
-    console.log('check authState', authState)
 
     const [input, setInput] = useState({
         email: '',
@@ -40,11 +38,16 @@ function SignIn() {
     }
 
     const handleInput = (e) => {
-        e.preventDefault()
         setInput({
             ...input,
             [e.target.name]: e.target.value
         })
+    }
+
+    const handleKeyDown = async (e) => {
+        if (e.key === 'Enter') {
+            await handleSignIn()
+        }
     }
 
     const handleSignIn = async () => {
@@ -52,11 +55,15 @@ function SignIn() {
         try {
             let data = await authApi.signInApi(input.email, input.password)
 
+            // Save access token into local storage
+            localStorage.setItem('accessToken', data.user.accessToken)
+
+            // Fail to sign in
             if (data && data.errCode !== 0) {
                 setErrorMessage(data.message)
                 toast.error('Sign in failed !', {
                     position: 'top-center',
-                    autoClose: 2000,
+                    autoClose: 1500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -65,10 +72,12 @@ function SignIn() {
                     theme: 'light'
                 })
             }
+
+            // Success to sign in
             if (data && data.errCode === 0) {
                 toast.success('Sign in successfully !', {
                     position: 'top-center',
-                    autoClose: 2000,
+                    autoClose: 1500,
                     hideProgressBar: false,
                     closeOnClick: true,
                     pauseOnHover: true,
@@ -84,12 +93,17 @@ function SignIn() {
                     username: data.user.username,
                     role: data.user.role
                 }
+
                 dispatch(signin(signInUser))
 
                 if (signInUser.role === 'Admin' || signInUser.role == 'Employee') {
-                    router.push('/admin')
+                    setTimeout(function () {
+                        router.push('/admin')
+                    }, 1500)
                 } else {
-                    router.push('/')
+                    setTimeout(function () {
+                        router.push('/')
+                    }, 1500)
                 }
             }
         } catch (error) {
@@ -145,6 +159,7 @@ function SignIn() {
                                     autoFocus
                                     autoComplete='email'
                                     onChange={handleInput}
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                 />
                                 <TextField
                                     id='password'
@@ -156,6 +171,7 @@ function SignIn() {
                                     type={showPassword ? 'text' : 'password'}
                                     value={input.password}
                                     onChange={handleInput}
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
@@ -197,7 +213,7 @@ function SignIn() {
                                     Sign In
                                 </Button>
 
-                                <div className='flex font-semibold text-rose-500 hover:underline text-lg mt-2 lt:hidden'>
+                                <div className='flex font-semibold text-rose-500 hover:underline text-lg mt-2 lt:hidden tl:hidden'>
                                     Sign Up ?
                                 </div>
                             </div>
@@ -226,19 +242,7 @@ function SignIn() {
                     </form>
                 </div>
             </div>
-
-            <ToastContainer
-                position='top-center'
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme='light'
-            />
+            <ToastContainer />
         </div>
     )
 }

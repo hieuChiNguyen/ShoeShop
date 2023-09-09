@@ -3,9 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { useSelector } from 'react-redux'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import { Navigation, Autoplay } from 'swiper/modules'
-
 import Logo from './Logo'
 import Search from './Search'
 import UserMenu from './UserMenu'
@@ -17,8 +15,6 @@ import Image from 'next/image'
 import assets from '@/assets'
 
 function NavBar() {
-    const router = useRouter()
-
     const discounts = [
         'EXCHANGE WITHIN 2 WEEKS',
         'SHOES HALF A YEAR WARRANTY',
@@ -37,29 +33,21 @@ function NavBar() {
         setShowModalUserMenu(false)
     }
 
-    useEffect(() => {}, [authState])
-
     return (
         <>
             <div className='flex flex-row gap-2 md:gap-3 lg:gap-3 float-left w-full z-10 bg-slate-50 sticky top-0'>
                 <Logo />
                 <UserMenu openModalUserMenu={openModalUserMenu} closeModalUserMenu={closeModalUserMenu} />
                 <Search />
-                {/* <div className='flex flex-row my-auto mr-6'>
-                    <div className='border-r-2 px-2 border-slate-400 cursor-pointer hover:text-orange-600 hover:underline'>
-                        VI
-                    </div>
-                    <div className='px-2 cursor-pointer hover:text-orange-600 hover:underline'>EN</div>
-                </div> */}
                 <div className='flex my-auto mr-8 mb:mr-2'>
                     <i className='fa-light fa-globe cursor-pointer text-orange-600 hover:text-orange-400 text-3xl font-medium lt:block mb:text-2xl '></i>
                 </div>
-                <div
+                <Link
                     className='inline-block my-auto items-center justify-center lt:mr-20 lt:ml-4 mb:mr-1'
-                    onClick={() => router.push('/cart')}
+                    href={'/cart'}
                 >
                     <i className='fa-sharp fa-light fa-cart-shopping-fast cursor-pointer text-orange-600 hover:text-orange-400 text-3xl font-medium lt:block mb:text-2xl'></i>
-                </div>
+                </Link>
                 <div className='flex flex-col items-center justify-center'>
                     <div className='inline-block my-auto items-center justify-center'>
                         <Profile />
@@ -80,56 +68,60 @@ function NavBar() {
                     onMouseLeave={closeModalUserMenu}
                 >
                     <div className='flex flex-col gap-6 items-center mx-auto'>
-                        <Image
-                            alt='male'
-                            src={assets.images.male}
-                            height={300}
-                            width={300}
-                            className='h-64 w-64 cursor-pointer hover:transition-all hover:ease-linear opacity-60 hover:opacity-100 hover:contrast-125'
-                            onClick={() => router.push('/male')}
-                        />
+                        <Link href={'/male'}>
+                            <Image
+                                alt='male'
+                                src={assets.images.male}
+                                height={300}
+                                width={300}
+                                className='h-64 w-64 cursor-pointer hover:transition-all hover:ease-linear opacity-60 hover:opacity-100 hover:contrast-125'
+                            />
+                        </Link>
                         <div className='uppercase text-white font-semibold text-lg cursor-pointer tracking-widest hover:text-orange-600'>
                             For male
                         </div>
                     </div>
 
                     <div className='flex flex-col gap-6 items-center mx-auto '>
-                        <Image
-                            alt='female'
-                            src={assets.images.female}
-                            height={300}
-                            width={300}
-                            className='h-64 w-64 cursor-pointer hover:transition-all hover:ease-linear opacity-60 hover:opacity-100 hover:contrast-125'
-                            onClick={() => router.push('/female')}
-                        />
+                        <Link href={'/female'}>
+                            <Image
+                                alt='female'
+                                src={assets.images.female}
+                                height={300}
+                                width={300}
+                                className='h-64 w-64 cursor-pointer hover:transition-all hover:ease-linear opacity-60 hover:opacity-100 hover:contrast-125'
+                            />
+                        </Link>
                         <div className='uppercase text-white font-semibold text-lg cursor-pointer tracking-widest hover:text-orange-600'>
                             For female
                         </div>
                     </div>
 
                     <div className='flex flex-col gap-6 items-center mx-auto'>
-                        <Image
-                            alt='saleoff'
-                            src={assets.images.saleOff}
-                            height={300}
-                            width={300}
-                            className='h-64 w-64 cursor-pointer hover:transition-all hover:ease-linear opacity-60 hover:opacity-100 hover:contrast-125'
-                            onClick={() => router.push('/saleOff')}
-                        />
+                        <Link href={'/saleOff'}>
+                            <Image
+                                alt='saleoff'
+                                src={assets.images.saleOff}
+                                height={300}
+                                width={300}
+                                className='h-64 w-64 cursor-pointer hover:transition-all hover:ease-linear opacity-60 hover:opacity-100 hover:contrast-125'
+                            />
+                        </Link>
                         <div className='uppercase text-white font-semibold text-lg cursor-pointer tracking-widest hover:text-orange-600'>
                             Sale off
                         </div>
                     </div>
 
                     <div className='flex flex-col gap-6 items-center mx-auto'>
-                        <Image
-                            alt='help'
-                            src={assets.images.help}
-                            height={300}
-                            width={300}
-                            className='h-64 w-64 cursor-pointer hover:transition-all hover:ease-linear opacity-60 hover:opacity-100 hover:contrast-125'
-                            onClick={() => router.push('/help')}
-                        />
+                        <Link href={'/help'}>
+                            <Image
+                                alt='help'
+                                src={assets.images.help}
+                                height={300}
+                                width={300}
+                                className='h-64 w-64 cursor-pointer hover:transition-all hover:ease-linear opacity-60 hover:opacity-100 hover:contrast-125'
+                            />
+                        </Link>
                         <div className='uppercase text-white font-semibold text-lg cursor-pointer tracking-widest hover:text-orange-600'>
                             Help
                         </div>

@@ -19,7 +19,6 @@ function UserMenu({ openModalUserMenu, closeModalUserMenu, showModalUserMenu }) 
 
     const handleMouseOver = (index) => {
         setHoverArrowDownIndex(index)
-
         openModalUserMenu()
     }
 

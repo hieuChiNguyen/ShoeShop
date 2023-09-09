@@ -17,7 +17,7 @@ export const authSlice = createSlice({
             state.username = action.payload.username
             state.role = action.payload.role
         },
-        signout: (state, action) => {
+        signout: (state) => {
             state.loggedIn = false
             state.id = ''
             state.email = ''

@@ -100,7 +100,7 @@ function SignUp() {
                 dispatch(signin(newUser))
 
                 if (newUser.loggedIn && newUser.role === 'Customer') {
-                    router.push('/')
+                    router.push('/signin')
                 }
             }
         } catch (error) {
@@ -115,16 +115,16 @@ function SignUp() {
 
     return (
         <div className='w-full min-h-screen flex items-center justify-center bg-gray-500'>
-            <div className='relative md:w-900 md:h-600 rounded-lg bg-slate-300 overflow-hidden m-5'>
+            <div className='relative lt:w-900 lt:h-600 rounded-lg bg-slate-300 overflow-hidden m-5'>
                 <div
                     className='
-                        absolute md:w-900 md:h-600 bg-gradient-to-r from-rose-500 via-rose-400 
+                        absolute lt:w-900 lt:h-600 bg-gradient-to-r from-rose-500 via-rose-400 
                         to-transparent -top-[50%] -left-[50%] animate-spin-slow origin-bottom-right
                     '
                 ></div>
                 <div
                     className='
-                        absolute md:w-900 md:h-600 bg-gradient-to-r from-rose-500 via-rose-400 
+                        absolute lt:w-900 lt:h-600 bg-gradient-to-r from-rose-500 via-rose-400 
                         to-transparent -top-[50%] -left-[50%] animate-spin-delay origin-bottom-right
                     '
                 ></div>
