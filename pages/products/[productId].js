@@ -54,6 +54,7 @@ function ProductDetailPage() {
 }
 
 function DetailProduct({ product }) {
+    const router = useRouter()
     const authState = useSelector((state) => state.auth)
     const [showInformation, setShowInformation] = useState(false)
     const [showPolicy, setShowPolicy] = useState(false)
@@ -104,7 +105,7 @@ function DetailProduct({ product }) {
                     if (res && res.errCode !== 0) {
                         toast.error('Add product to cart failed !', {
                             position: 'top-right',
-                            autoClose: 1500,
+                            autoClose: 1000,
                             hideProgressBar: false,
                             closeOnClick: true,
                             pauseOnHover: true,
@@ -116,7 +117,7 @@ function DetailProduct({ product }) {
                     if (res && res.errCode === 0) {
                         toast.success('Add product to cart successfully !', {
                             position: 'top-right',
-                            autoClose: 1500,
+                            autoClose: 1000,
                             hideProgressBar: false,
                             closeOnClick: true,
                             pauseOnHover: true,
@@ -149,6 +150,13 @@ function DetailProduct({ product }) {
 
     const handleChooseCount = (e) => {
         newCart[e.target.name] = parseInt(e.target.value)
+    }
+
+    const handlePayment = async () => {
+        await handleAddProductToCart()
+        setTimeout(() => {
+            router.push('/cart')
+        }, 1500)
     }
 
     return (
@@ -232,7 +240,10 @@ function DetailProduct({ product }) {
                         Add to cart
                     </div>
 
-                    <div className='uppercase cursor-pointer w-full h-16 bg-orange-600 text-white text-center font-bold text-2xl py-4 mb-10'>
+                    <div
+                        className='uppercase cursor-pointer w-full h-16 bg-orange-600 text-white text-center font-bold text-2xl py-4 mb-10'
+                        onClick={handlePayment}
+                    >
                         Payment
                     </div>
 

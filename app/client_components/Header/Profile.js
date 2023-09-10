@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { useSelector, useDispatch } from 'react-redux'
 import assets from '@/assets'
-import ProfileItem from './ProfileItem'
 import userApi from '@/app/api/userApi'
 import { signout } from '@/app/redux/reducers/authSlice'
 import Link from 'next/link'
@@ -100,10 +99,14 @@ function Profile() {
                             {showProfileMenu ? (
                                 <>
                                     <Link href={'/signin'}>
-                                        <ProfileItem label='Sign In' />
+                                        <div className='px-2 py-2 hover:bg-neutral-200 transition-all font-medium'>
+                                            Sign In
+                                        </div>
                                     </Link>
                                     <Link href={'/signup'}>
-                                        <ProfileItem label='Sign Up' />
+                                        <div className='px-2 py-2 hover:bg-neutral-200 transition-all font-medium'>
+                                            Sign Up
+                                        </div>
                                     </Link>
                                 </>
                             ) : null}

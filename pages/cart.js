@@ -50,22 +50,49 @@ function Cart() {
             let response = await cartApi.deleteProductInCart(cartId)
             if (response && response.errCode === 0) {
                 await showProductDetail()
-                totalPrice = totalPrice
-                const newTotalPrice = cart.reduce(
-                    (price, product) => price - product.price * product.countUniqueProduct,
-                    totalPrice
-                )
-                setTotalPrice(newTotalPrice)
             }
         } catch (error) {
             console.log(error)
         }
     }
 
-    // Update quality of products in cart item
-    const handleDecreaseCount = () => {}
+    // Decrease quantity of products in cart item
+    const handleDecreaseQuantity = async (product) => {
+        try {
+            let newQuantity
+            newQuantity = product.countUniqueProduct > 1 ? product.countUniqueProduct - 1 : 1
+            let updateCartItem = {
+                id: product.cartId,
+                size: product.sizeOrder,
+                countUniqueProduct: newQuantity
+            }
 
-    const handleIncreaseCount = () => {}
+            await cartApi.updateProductQuantityInCart(updateCartItem).then(async (res) => {
+                if (res && res.errCode === 0) await showProductDetail()
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // Increase quantity of products in cart item
+    const handleIncreaseQuantity = async (product) => {
+        try {
+            let newQuantity
+            newQuantity = product.countUniqueProduct < 10 ? product.countUniqueProduct + 1 : 10
+            let updateCartItem = {
+                id: product.cartId,
+                size: product.sizeOrder,
+                countUniqueProduct: newQuantity
+            }
+
+            await cartApi.updateProductQuantityInCart(updateCartItem).then(async (res) => {
+                if (res && res.errCode === 0) await showProductDetail()
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className='container mx-auto mt-10 w-[90%]'>
@@ -122,7 +149,7 @@ function Cart() {
                                         <svg
                                             className='fill-current text-gray-600 w-3 cursor-pointer'
                                             viewBox='0 0 448 512'
-                                            onClick={handleDecreaseCount}
+                                            onClick={() => handleDecreaseQuantity(product)}
                                         >
                                             <path d='M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z' />
                                         </svg>
@@ -134,7 +161,7 @@ function Cart() {
                                         <svg
                                             className='fill-current text-gray-600 w-3 cursor-pointer'
                                             viewBox='0 0 448 512'
-                                            onClick={handleIncreaseCount}
+                                            onClick={() => handleIncreaseQuantity(product)}
                                         >
                                             <path d='M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z' />
                                         </svg>
@@ -171,7 +198,7 @@ function Cart() {
                             <span className='font-semibold text-sm uppercase'>
                                 Items {totalItems ? totalItems : ''}
                             </span>
-                            <span className='font-semibold text-sm'>${totalPrice ? totalPrice : 0}</span>
+                            <span className='font-semibold text-sm'>${totalPrice}</span>
                         </div>
                         <div className='py-10'>
                             <label htmlFor='promo' className='font-semibold inline-block mb-3 text-sm uppercase'>
@@ -190,7 +217,7 @@ function Cart() {
                         <div className='border-t mt-8'>
                             <div className='flex font-semibold justify-between py-6 text-sm uppercase'>
                                 <span>Total cost</span>
-                                <span>${totalPrice ? totalPrice : 0}</span>
+                                <span>${totalPrice}</span>
                             </div>
                             <button className='bg-indigo-500 font-semibold hover:bg-indigo-600 py-3 text-sm text-white uppercase w-full'>
                                 Checkout

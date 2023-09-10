@@ -9,13 +9,19 @@ import ModalEditProduct from '@/app/admin_components/Products/ModalEditProduct'
 import '@/styles/globals.css'
 import '@/styles/products.css'
 import Link from 'next/link'
+import SignInPage from '../signin'
 
 function ManageProductsPage() {
-    return (
+    const ISSERVER = typeof window === 'undefined'
+    // Access localStorage
+    const checkRole = !ISSERVER ? sessionStorage.getItem('isAdmin') : false
+    return checkRole ? (
         <div className='flex flex-row'>
             <AdminSideBar />
             <ManageProducts />
         </div>
+    ) : (
+        <SignInPage />
     )
 }
 

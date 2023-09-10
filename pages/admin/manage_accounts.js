@@ -9,13 +9,20 @@ import AdminSideBar from '@/app/admin_components/AdminSideBar'
 import { emitter } from '@/utils/emitter'
 import '@/styles/accounts.css'
 import '@/styles/globals.css'
+import SignInPage from '../signin'
 
 function ManageAccountsPage() {
-    return (
-        <div className='flex flex-row'>
+    const ISSERVER = typeof window === 'undefined'
+    // Access localStorage
+    const checkRole = !ISSERVER ? sessionStorage.getItem('isAdmin') : false
+
+    return checkRole ? (
+        <>
             <AdminSideBar />
             <ManageAccounts />
-        </div>
+        </>
+    ) : (
+        <SignInPage />
     )
 }
 

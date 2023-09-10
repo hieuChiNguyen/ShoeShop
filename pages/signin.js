@@ -96,7 +96,8 @@ function SignIn() {
 
                 dispatch(signin(signInUser))
 
-                if (signInUser.role === 'Admin' || signInUser.role == 'Employee') {
+                if (signInUser.role === 'Admin') {
+                    sessionStorage.setItem('isAdmin', true)
                     setTimeout(function () {
                         router.push('/admin')
                     }, 1500)

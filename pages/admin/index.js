@@ -11,6 +11,8 @@ function AdminPage() {
     )
 }
 
-function AdminStatistics() {}
+function AdminStatistics() {
+    return <div>Statistic here !</div>
+}
 
 export default AdminPage

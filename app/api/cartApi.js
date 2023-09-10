@@ -1,3 +1,4 @@
+import axiosClient from './axiosClient'
 import axiosJWT from './axiosJWT'
 
 const userApi = {
@@ -13,6 +14,11 @@ const userApi = {
 
     deleteProductInCart: async (cartId) => {
         const response = await axiosJWT.delete('/api/delete_cart', { data: { id: cartId } })
+        return response
+    },
+
+    updateProductQuantityInCart: async (data) => {
+        const response = await axiosJWT.put('/api/update_cart_quantity', data)
         return response
     }
 }

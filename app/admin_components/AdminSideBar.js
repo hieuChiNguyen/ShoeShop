@@ -1,7 +1,6 @@
 'use client'
 import classNames from 'classnames'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 import Image from 'next/image'
 import { MdManageAccounts, MdProductionQuantityLimits } from 'react-icons/md'
@@ -19,7 +18,6 @@ const menuItems = [
 ]
 
 const AdminSideBar = () => {
-    const router = useRouter()
     const [toggleCollapse, setToggleCollapse] = useState(false)
     const [isCollapsible, setIsCollapsible] = useState(false)
 

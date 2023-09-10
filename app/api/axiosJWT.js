@@ -23,8 +23,6 @@ const resetAccessToken = async () => {
 axiosJWT.interceptors.request.use(async (config) => {
     let date = new Date()
     const accessToken = localStorage.getItem('accessToken')
-    axiosJWT.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`
-    console.log('check authorization: ', `Bearer ${accessToken}`)
 
     if (accessToken) {
         const decoded = jwtDecode(accessToken)
@@ -33,8 +31,8 @@ axiosJWT.interceptors.request.use(async (config) => {
 
         if (decoded.exp < date.getTime() / 1000) {
             localStorage.removeItem('accessToken')
+            delete axiosJWT.defaults.headers.common['Authorization']
             const newAccessToken = await resetAccessToken()
-            console.log('check data JWT line 34: ', newAccessToken)
             localStorage.setItem('accessToken', newAccessToken)
             axiosJWT.defaults.headers.common['Authorization'] = `Bearer ${newAccessToken}`
             console.log('check authorization after refresh: ', `Bearer ${newAccessToken}`)
@@ -45,7 +43,7 @@ axiosJWT.interceptors.request.use(async (config) => {
 })
 
 axiosJWT.interceptors.response.use((response) => {
-    console.log('check axiosJWT: ', response)
+    // console.log('check axiosJWT: ', response)
     return response.data
 })
 

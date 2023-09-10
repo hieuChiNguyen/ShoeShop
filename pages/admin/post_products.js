@@ -10,13 +10,20 @@ import 'react-toastify/dist/ReactToastify.css'
 import '@/styles/globals.css'
 import AdminSideBar from '@/app/admin_components/AdminSideBar'
 import SizeBox from '@/app/admin_components/Products/SizeBox'
+import SignInPage from '../signin'
 
 function AdminPostProductPage() {
-    return (
+    const ISSERVER = typeof window === 'undefined'
+    // Access localStorage
+    const checkRole = !ISSERVER ? sessionStorage.getItem('isAdmin') : false
+
+    return checkRole ? (
         <div className='flex flex-row'>
             <AdminSideBar />
             <PostProducts />
         </div>
+    ) : (
+        <SignInPage />
     )
 }
 
@@ -165,31 +172,29 @@ const PostProducts = () => {
     const handleAddNewProduct = () => {
         let isValid = checkValidateInput()
         if (isValid === true) {
-            // Call api
-            // console.log('post successfully: ', input)
             createNewProduct(input)
         }
     }
 
     return (
         <>
-            <form method='POST' className='w-3/4 float-right right-0 mx-auto mt-0'>
+            <form method='POST' className='w-3/4 float-right h-fit right-0 mx-auto mt-0'>
                 <div className='min-h-screen p-6 bg-gray-100 flex items-center justify-center'>
-                    <div className='container max-w-screen-lg mx-auto'>
+                    <div className='container max-w-screen-lt mx-auto'>
                         <div>
                             <h2 className='font-semibold text-xl text-gray-600'>Create a new product</h2>
                             <p className='text-gray-500 mb-6'>Fill out information of your new arrival</p>
 
-                            <div className='bg-white rounded shadow-lg p-3 px-4 md:p-6 mb-6'>
-                                <div className='grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3'>
+                            <div className='bg-white rounded shadow-lt p-3 px-4 lt:p-6 mb-6'>
+                                <div className='grid gap-4 gap-y-2 text-sm grid-cols-1 lt:grid-cols-3'>
                                     <div className='text-gray-600'>
-                                        <p className='font-medium text-lg'>Product Details</p>
+                                        <p className='font-medium text-lt'>Product Details</p>
                                         <p>Please fill out all the fields.</p>
                                     </div>
 
-                                    <div className='lg:col-span-2'>
-                                        <div className='grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5'>
-                                            <div className='md:col-span-3'>
+                                    <div className='lt:col-span-2'>
+                                        <div className='grid gap-4 gap-y-2 text-sm grid-cols-1 lt:grid-cols-5'>
+                                            <div className='lt:col-span-3'>
                                                 <label>Product Name</label>
                                                 <input
                                                     type='text'
@@ -202,7 +207,7 @@ const PostProducts = () => {
                                                 />
                                             </div>
 
-                                            <div className='md:col-span-2'>
+                                            <div className='lt:col-span-2'>
                                                 <label>Product Code</label>
                                                 <input
                                                     type='text'
@@ -215,7 +220,7 @@ const PostProducts = () => {
                                                 />
                                             </div>
 
-                                            <div className='md:col-span-3 mt-2'>
+                                            <div className='lt:col-span-3 mt-2'>
                                                 <label>Image</label>
                                                 <input
                                                     className='relative m-0 mt-1 block w-full min-w-0 flex-auto rounded border border-solid border-neutral-300 bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-neutral-700 transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:overflow-hidden file:rounded-none file:border-0 file:border-solid file:border-inherit file:bg-neutral-100 file:px-3 file:py-[0.32rem] file:text-neutral-700 file:transition file:duration-150 file:ease-in-out file:[border-inline-end-width:1px] file:[margin-inline-end:0.75rem] hover:file:bg-neutral-200 focus:border-primary focus:text-neutral-700 focus:shadow-te-primary focus:outline-none dark:border-neutral-600 dark:text-neutral-200 dark:file:bg-neutral-700 dark:file:text-neutral-100 dark:focus:border-primary'
@@ -226,7 +231,7 @@ const PostProducts = () => {
                                                 />
                                             </div>
 
-                                            <div className='md:col-span-2 mt-2'>
+                                            <div className='lt:col-span-2 mt-2'>
                                                 <label>Color</label>
                                                 <input
                                                     type='text'
@@ -238,7 +243,7 @@ const PostProducts = () => {
                                                 />
                                             </div>
 
-                                            <div className='md:col-span-5 mt-2'>
+                                            <div className='lt:col-span-5 mt-2'>
                                                 <label>Description</label>
                                                 <input
                                                     type='text'
@@ -251,7 +256,7 @@ const PostProducts = () => {
                                                 />
                                             </div>
 
-                                            <div className='md:col-span-2 mt-2'>
+                                            <div className='lt:col-span-2 mt-2'>
                                                 <label>Category</label>
                                                 <div className='h-10 w-60 bg-gray-50 flex border border-gray-300 rounded items-center mt-1'>
                                                     <select
@@ -268,7 +273,7 @@ const PostProducts = () => {
                                                 </div>
                                             </div>
 
-                                            <div className='md:col-span-1 mt-2'>
+                                            <div className='lt:col-span-1 mt-2'>
                                                 <label>Price</label>
                                                 <input
                                                     type='text'
@@ -281,7 +286,7 @@ const PostProducts = () => {
                                                 />
                                             </div>
 
-                                            <div className='md:col-span-1 mt-2'>
+                                            <div className='lt:col-span-1 mt-2'>
                                                 <label>Quantity</label>
                                                 <div className='h-10 w-28 bg-gray-50 flex border border-gray-200 rounded items-center mt-1'>
                                                     <input
@@ -295,7 +300,7 @@ const PostProducts = () => {
                                                 </div>
                                             </div>
 
-                                            <div className='md:col-span-1 mt-2'>
+                                            <div className='lt:col-span-1 mt-2'>
                                                 <label>Product Gender</label>
                                                 <div className='h-10 w-28 bg-gray-50 flex border border-gray-200 rounded mt-1'>
                                                     <select
@@ -312,7 +317,7 @@ const PostProducts = () => {
                                                 </div>
                                             </div>
 
-                                            <div className='md:col-span-5 mt-2'>
+                                            <div className='lt:col-span-5 mt-2'>
                                                 <label>Size</label>
                                                 <div className='h-10 w-full flex flex-row rounded items-center mt-1 gap-6 p-2'>
                                                     <SizeBox label='35' onChange={handleCheckbox} />
@@ -328,7 +333,7 @@ const PostProducts = () => {
                                                 </div>
                                             </div>
 
-                                            <div className='md:col-span-5 text-right mt-5'>
+                                            <div className='lt:col-span-5 text-right mt-5'>
                                                 <div className='inline-flex items-end'>
                                                     <button
                                                         className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
@@ -349,23 +354,12 @@ const PostProducts = () => {
                             alt='Buy Me A Coffee'
                             width={100}
                             height={100}
-                            className='transition-all rounded-full w-16 -rotate-45 hover:shadow-sm shadow-lg ring hover:ring-4 ring-white'
+                            className='transition-all rounded-full w-16 -rotate-45 hover:shadow-sm shadow-lt ring hover:ring-4 ring-white'
                         />
                     </div>
                 </div>
             </form>
-            <ToastContainer
-                position='top-right'
-                autoClose={1500}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme='light'
-            />
+            <ToastContainer />
         </>
     )
 }
