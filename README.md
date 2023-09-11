@@ -1,4 +1,5 @@
 #### Run project: npm run dev
+#### http://localhost:3000/
 #### Các tính năng:
 * Customer:
   + Sign up / Sign in / Sign out
