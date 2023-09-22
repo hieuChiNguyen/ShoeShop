@@ -4,13 +4,13 @@ import Image from 'next/image'
 import assets from '@/assets'
 import { emitter } from '@/utils/emitter'
 import productApi from '@/app/api/productApi'
-import { toast } from 'react-toastify'
+import AdminSideBar from '@/app/Components/Admin/AdminSideBar'
+import SizeBox from '@/app/Components/Admin/Products/SizeBox'
+import SignInPage from '../signin'
+import toasts from '@/app/Components/Common/Toast/Toast'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import '@/styles/globals.css'
-import AdminSideBar from '@/app/admin_components/AdminSideBar'
-import SizeBox from '@/app/admin_components/Products/SizeBox'
-import SignInPage from '../signin'
 
 function AdminPostProductPage() {
     const ISSERVER = typeof window === 'undefined'
@@ -141,27 +141,9 @@ const PostProducts = () => {
 
             let response = await productApi.createNewProduct(formData)
             if (response && response.errCode !== 0) {
-                toast.error('Failed to create a new product!', {
-                    position: 'top-right',
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                })
+                toasts.errorTopRight('Failed to create a new product!')
             } else {
-                toast.success('Create new one successfully !', {
-                    position: 'top-right',
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                })
+                toasts.successTopRight('Create new one successfully !')
                 emitter.emit('EVENT_CLEAR_MODAL_DATA')
             }
         } catch (error) {

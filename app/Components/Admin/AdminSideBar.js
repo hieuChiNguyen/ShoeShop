@@ -1,14 +1,14 @@
 'use client'
-import classNames from 'classnames'
-import Link from 'next/link'
 import React, { useState } from 'react'
-import Image from 'next/image'
 import { MdManageAccounts, MdProductionQuantityLimits } from 'react-icons/md'
 import { BiLogOut } from 'react-icons/bi'
 import { IoTicketOutline } from 'react-icons/io5'
 import { AiOutlineLeft } from 'react-icons/ai'
 import { TbShoe } from 'react-icons/tb'
 import assets from '@/assets'
+import Image from 'next/image'
+import classNames from 'classnames'
+import Link from 'next/link'
 
 const menuItems = [
     { id: 1, label: 'Manage Products', icon: TbShoe, link: '/admin/manage_products' },
@@ -20,14 +20,6 @@ const menuItems = [
 const AdminSideBar = () => {
     const [toggleCollapse, setToggleCollapse] = useState(false)
     const [isCollapsible, setIsCollapsible] = useState(false)
-
-    const wrapperClasses = classNames(
-        'h-screen px-1 pt-8 pb-4 bg-gradient-to-b from-green-400 via-green-500 flex justify-between flex-col',
-        {
-            ['w-80']: !toggleCollapse,
-            ['w-40']: toggleCollapse
-        }
-    )
 
     const collapseIconClasses = classNames('p-4 rounded bg-light-lighter absolute right-0', {
         'rotate-180': toggleCollapse
@@ -45,7 +37,13 @@ const AdminSideBar = () => {
         <>
             <div className='flex flex-row lg:w-2/5 max-w-xs'>
                 <div
-                    className={wrapperClasses}
+                    className={classNames(
+                        'h-screen px-1 pt-8 pb-4 bg-gradient-to-b from-green-400 via-green-500 flex justify-between flex-col transition-all',
+                        {
+                            ['w-80']: !toggleCollapse,
+                            ['w-40']: toggleCollapse
+                        }
+                    )}
                     onMouseEnter={onMouseOver}
                     onMouseLeave={onMouseOver}
                     style={{ transition: 'width 300ms cubic-bezier(0.2, 0, 0, 1) 0s' }}
@@ -98,7 +96,7 @@ const AdminSideBar = () => {
                         </div>
                         {!toggleCollapse && (
                             <Link href={'/signin'}>
-                                <div className={classNames('text-md font-medium text-text-light')}>Sign out</div>
+                                <div className={'text-md font-medium text-text-light'}>Sign out</div>
                             </Link>
                         )}
                     </div>

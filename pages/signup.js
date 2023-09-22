@@ -1,17 +1,17 @@
 'use client'
-import React, { useState } from 'react'
-import { toast } from 'react-toastify'
+import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button, TextField, InputAdornment } from '@mui/material'
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
-import Image from 'next/image'
 import { useDispatch } from 'react-redux'
-import { ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import Image from 'next/image'
 import assets from '@/assets'
-import Wrapper from '@/app/client_components/Layout/Wrapper'
+import Wrapper from '@/app/Components/Client/Layout/Wrapper'
 import authApi from '@/app/api/authApi'
 import { signin } from '@/app/redux/reducers/authSlice'
+import { ToastContainer } from 'react-toastify'
+import toasts from '@/app/Components/Common/Toast/Toast'
+import 'react-toastify/dist/ReactToastify.css'
 import '@/styles/globals.css'
 
 function SignUpPage() {
@@ -37,6 +37,10 @@ function SignUp() {
     })
     const [showPassword, setShowPassword] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
+
+    useEffect(() => {
+        console.log('check sign up input: ', input)
+    })
 
     const handleShowHidePassword = () => {
         setShowPassword(!showPassword)
@@ -66,29 +70,11 @@ function SignUp() {
 
             if (data && data.errCode !== 0) {
                 setErrorMessage(data.message)
-                toast.error('Sign up failed !', {
-                    position: 'top-center',
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                })
+                toasts.errorTopCenter('Sign up failed !')
             }
 
             if (data && data.errCode === 0) {
-                toast.success('Sign up successfully !', {
-                    position: 'top-center',
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                })
+                toasts.successTopCenter('Sign up successfully !')
 
                 const newUser = {
                     loggedIn: true,
@@ -151,6 +137,7 @@ function SignUp() {
                                     autoFocus
                                     autoComplete='off'
                                     onChange={handleInput}
+                                    InputProps={{ style: { fontSize: 14 } }}
                                     required
                                 />
                                 <TextField
@@ -161,6 +148,7 @@ function SignUp() {
                                     name='email'
                                     value={input.email}
                                     onChange={handleInput}
+                                    InputProps={{ style: { fontSize: 14 } }}
                                     required
                                 />
                                 <TextField
@@ -172,6 +160,7 @@ function SignUp() {
                                     value={input.username}
                                     autoComplete='off'
                                     onChange={handleInput}
+                                    InputProps={{ style: { fontSize: 14 } }}
                                     required
                                 />
                                 <TextField
@@ -199,7 +188,8 @@ function SignUp() {
                                                     />
                                                 )}
                                             </InputAdornment>
-                                        )
+                                        ),
+                                        style: { fontSize: 14 }
                                     }}
                                     required
                                 />
@@ -212,6 +202,7 @@ function SignUp() {
                                     value={input.address}
                                     autoComplete='address'
                                     onChange={handleInput}
+                                    InputProps={{ style: { fontSize: 14 } }}
                                 />
                                 <TextField
                                     size='small'
@@ -222,6 +213,7 @@ function SignUp() {
                                     value={input.phone}
                                     autoComplete='off'
                                     onChange={handleInput}
+                                    InputProps={{ style: { fontSize: 14 } }}
                                     required
                                 />
                                 <div className='flex flex-row justify-between gap-[180px] mt-2'>
@@ -263,8 +255,8 @@ function SignUp() {
 
                             <div
                                 className='
-                                    w-2/5 md:flex flex-col gap-5 bg-rose-400 items-center justify-center 
-                                    text-white px-auto p-5 rounded-r-lg hidden h-full
+                                    w-2/5 flex flex-col gap-5 bg-rose-400 items-center justify-center 
+                                    text-white px-auto p-5 rounded-r-lg mb:hidden h-full
                                 '
                             >
                                 <div className='md:text-2xl font-bold flex'>Welcome !</div>
@@ -281,18 +273,7 @@ function SignUp() {
                     </form>
                 </div>
             </div>
-            <ToastContainer
-                position='top-center'
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme='light'
-            />
+            <ToastContainer />
         </div>
     )
 }

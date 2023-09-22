@@ -1,7 +1,7 @@
 import React from 'react'
-import Wrapper from '@/app/client_components/Layout/Wrapper'
-import Layout from '@/app/client_components/Layout/Layout'
-import ListShoes from '@/app/client_components/ListShoes'
+import Wrapper from '@/app/Components/Client/Layout/Wrapper'
+import Layout from '@/app/Components/Client/Layout/Layout'
+import ListShoes from '@/app/Components/Client/Products/ListShoes'
 import '@/styles/globals.css'
 
 function ProductsPage() {

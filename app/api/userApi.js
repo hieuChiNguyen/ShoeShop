@@ -29,12 +29,16 @@ const userApi = {
     },
 
     updateAvatarImage: async (data) => {
-        const response = await axiosClient.put('/api/update_avatar', data)
+        const response = await axiosJWT.put('/api/update_avatar', data)
         return response
     },
 
     getUserAvatar: async (userId) => {
         const response = await axiosClient.get(`/api/get_avatar/${userId}`)
+        return response
+    },
+    search: async (word) => {
+        const response = await axiosClient.get(`/api/search/${word}`)
         return response
     }
 }

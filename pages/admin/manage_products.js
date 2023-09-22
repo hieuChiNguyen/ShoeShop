@@ -4,8 +4,8 @@ import Image from 'next/image'
 import assets from '@/assets'
 import productApi from '@/app/api/productApi'
 import appConfig from '@/utils/appConfig'
-import AdminSideBar from '@/app/admin_components/AdminSideBar'
-import ModalEditProduct from '@/app/admin_components/Products/ModalEditProduct'
+import AdminSideBar from '@/app/Components/Admin/AdminSideBar'
+import ModalEditProduct from '@/app/Components/Admin/Products/ModalEditProduct'
 import '@/styles/globals.css'
 import '@/styles/products.css'
 import Link from 'next/link'
@@ -16,10 +16,12 @@ function ManageProductsPage() {
     // Access localStorage
     const checkRole = !ISSERVER ? sessionStorage.getItem('isAdmin') : false
     return checkRole ? (
-        <div className='flex flex-row'>
-            <AdminSideBar />
-            <ManageProducts />
-        </div>
+        <>
+            <div className='flex flex-row'>
+                <AdminSideBar />
+                <ManageProducts />
+            </div>
+        </>
     ) : (
         <SignInPage />
     )

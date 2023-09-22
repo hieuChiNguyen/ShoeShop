@@ -1,5 +1,5 @@
 import React from 'react'
-import AdminSideBar from '@/app/admin_components/AdminSideBar'
+import AdminSideBar from '@/app/Components/Admin/AdminSideBar'
 import '@/styles/globals.css'
 
 function AdminPage() {

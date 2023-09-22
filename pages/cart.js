@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useSelector } from 'react-redux'
-
 import appConfig from '@/utils/appConfig'
 import cartApi from '@/app/api/cartApi'
-import Wrapper from '@/app/client_components/Layout/Wrapper'
-import Layout from '@/app/client_components/Layout/Layout'
+import Wrapper from '@/app/Components/Client/Layout/Wrapper'
+import Layout from '@/app/Components/Client/Layout/Layout'
 import assets from '@/assets'
 import '@/styles/globals.css'
 

@@ -1,9 +1,5 @@
 'use client'
 import React from 'react'
-import Image from 'next/image'
-import assets from '@/assets'
-
-import productApi from '@/app/api/productApi'
 
 const ModalEditProduct = ({ toggle, handleUpdateProduct, handleChange, productEdit, handleChangeProductImage }) => {
     const checkValidateProductEdit = () => {

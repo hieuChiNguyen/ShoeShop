@@ -1,11 +1,11 @@
 import React from 'react'
 import Image from 'next/image'
 import assets from '@/assets'
-import Wrapper from '@/app/client_components/Layout/Wrapper'
-import Layout from '@/app/client_components/Layout/Layout'
-import Forum from '@/app/client_components/Section/Forum'
-import Brand from '@/app/client_components/Section/Brand'
-import Typical from '@/app/client_components/Section/Typical'
+import Wrapper from '@/app/Components/Client/Layout/Wrapper'
+import Layout from '@/app/Components/Client/Layout/Layout'
+import Forum from '@/app/Components/Client/Section/Forum'
+import Brand from '@/app/Components/Client/Section/Brand'
+import Typical from '@/app/Components/Client/Section/Typical'
 import '@/styles/globals.css'
 
 function HomePage() {

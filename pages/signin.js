@@ -1,16 +1,16 @@
 'use client'
-import React, { useState } from 'react'
-import { toast } from 'react-toastify'
-import { ToastContainer } from 'react-toastify'
+import React, { useEffect, useState } from 'react'
 import { AiFillLock, AiFillGoogleCircle, AiFillGithub, AiFillEye, AiFillEyeInvisible } from 'react-icons/ai'
 import { BiLogoFacebookCircle } from 'react-icons/bi'
 import { Button, TextField, InputAdornment } from '@mui/material'
 import { useRouter } from 'next/navigation'
-import { useSelector, useDispatch } from 'react-redux'
-import 'react-toastify/dist/ReactToastify.css'
-import authApi from '@/app/api/authApi'
-import Wrapper from '@/app/client_components/Layout/Wrapper'
+import { useDispatch } from 'react-redux'
 import { signin } from '@/app/redux/reducers/authSlice'
+import authApi from '@/app/api/authApi'
+import Wrapper from '@/app/Components/Client/Layout/Wrapper'
+import toasts from '@/app/Components/Common/Toast/Toast'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import '@/styles/globals.css'
 
 function SignInPage() {
@@ -33,6 +33,10 @@ function SignIn() {
     const [showPassword, setShowPassword] = useState(false)
     const [errorMessage, setErrorMessage] = useState('')
 
+    useEffect(() => {
+        console.log('check sign in input: ', input)
+    }, [input])
+
     const handleShowHidePassword = () => {
         setShowPassword(!showPassword)
     }
@@ -42,6 +46,7 @@ function SignIn() {
             ...input,
             [e.target.name]: e.target.value
         })
+        console.log('check input: ', input)
     }
 
     const handleKeyDown = async (e) => {
@@ -61,30 +66,12 @@ function SignIn() {
             // Fail to sign in
             if (data && data.errCode !== 0) {
                 setErrorMessage(data.message)
-                toast.error('Sign in failed !', {
-                    position: 'top-center',
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                })
+                toasts.errorTopCenter('Sign in failed !')
             }
 
             // Success to sign in
             if (data && data.errCode === 0) {
-                toast.success('Sign in successfully !', {
-                    position: 'top-center',
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                })
+                toasts.successTopCenter('Sign in successfully !')
 
                 const signInUser = {
                     loggedIn: true,

@@ -1,6 +1,6 @@
 import React from 'react'
 import '@/styles/globals.css'
-import AdminSideBar from '@/app/admin_components/AdminSideBar'
+import AdminSideBar from '@/app/Components/Admin/AdminSideBar'
 
 function ManageVouchersPage() {
     return (

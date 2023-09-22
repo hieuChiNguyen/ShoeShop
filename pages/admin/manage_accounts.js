@@ -1,15 +1,16 @@
 'use client'
+
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import assets from '@/assets'
 import userApi from '@/app/api/userApi'
-import ModalAddUser from '@/app/admin_components/Accounts/ModalAddUser'
-import ModalEditUser from '@/app/admin_components/Accounts/ModalEditUser'
-import AdminSideBar from '@/app/admin_components/AdminSideBar'
+import ModalAddUser from '@/app/Components/Admin/Accounts/ModalAddUser'
+import ModalEditUser from '@/app/Components/Admin/Accounts/ModalEditUser'
+import AdminSideBar from '@/app/Components/Admin/AdminSideBar'
+import SignInPage from '../signin'
 import { emitter } from '@/utils/emitter'
 import '@/styles/accounts.css'
 import '@/styles/globals.css'
-import SignInPage from '../signin'
 
 function ManageAccountsPage() {
     const ISSERVER = typeof window === 'undefined'
@@ -17,10 +18,10 @@ function ManageAccountsPage() {
     const checkRole = !ISSERVER ? sessionStorage.getItem('isAdmin') : false
 
     return checkRole ? (
-        <>
+        <div className='flex flex-row'>
             <AdminSideBar />
             <ManageAccounts />
-        </>
+        </div>
     ) : (
         <SignInPage />
     )

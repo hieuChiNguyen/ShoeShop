@@ -1,19 +1,19 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
-import { ToastContainer } from 'react-toastify'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import { RiArrowDropUpLine, RiArrowDropDownLine } from 'react-icons/ri'
 import { BiSolidCheckCircle } from 'react-icons/bi'
 import { useSelector } from 'react-redux'
-import 'react-toastify/dist/ReactToastify.css'
 import appConfig from '@/utils/appConfig'
 import assets from '@/assets'
-import Wrapper from '@/app/client_components/Layout/Wrapper'
-import Layout from '@/app/client_components/Layout/Layout'
+import Wrapper from '@/app/Components/Client/Layout/Wrapper'
+import Layout from '@/app/Components/Client/Layout/Layout'
 import productApi from '@/app/api/productApi'
 import cartApi from '@/app/api/cartApi'
+import toasts from '@/app/Components/Common/Toast/Toast'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import '@/styles/globals.css'
 
 function ProductDetailPage() {
@@ -76,70 +76,26 @@ function DetailProduct({ product }) {
 
     const handleAddProductToCart = async () => {
         try {
-            if (newCart.userId && newCart.size === '') {
-                toast.error('Fill out size of shoe !', {
-                    position: 'top-right',
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                })
+            if (!newCart.userId) {
+                toasts.errorTopRight('You must sign in to add product to cart !')
+            } else if (newCart.userId && newCart.size === '') {
+                toasts.errorTopRight('Fill out size of shoe !')
             } else if (newCart.userId && newCart.countUniqueProduct === 0) {
-                toast.error('Fill out count of shoe !', {
-                    position: 'top-right',
-                    autoClose: 1000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: 'light'
-                })
+                toasts.errorTopRight('Fill out count of shoe !')
             } else {
                 let response = await cartApi.addToCart(newCart).then((res) => {
                     console.log('check res: ', res)
 
                     if (res && res.errCode !== 0) {
-                        toast.error('Add product to cart failed !', {
-                            position: 'top-right',
-                            autoClose: 1000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'light'
-                        })
+                        toasts.errorTopRight('Add product to cart failed !')
                     }
                     if (res && res.errCode === 0) {
-                        toast.success('Add product to cart successfully !', {
-                            position: 'top-right',
-                            autoClose: 1000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: 'light'
-                        })
+                        toasts.successTopRight('Add product to cart successfully !')
                     }
                 })
             }
         } catch (error) {
-            toast.error('You must sign in to add product to cart !', {
-                position: 'top-right',
-                autoClose: 1500,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'light'
-            })
-
+            toasts.warnTopRight('Please wait for server processing then add to cart again !')
             console.log(error)
         }
     }
@@ -156,7 +112,7 @@ function DetailProduct({ product }) {
         await handleAddProductToCart()
         setTimeout(() => {
             router.push('/cart')
-        }, 1500)
+        }, 2000)
     }
 
     return (
@@ -313,18 +269,7 @@ function DetailProduct({ product }) {
                     ) : null}
                 </div>
             </div>
-            <ToastContainer
-                position='top-center'
-                autoClose={2000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme='light'
-            />
+            <ToastContainer />
         </div>
     )
 }
